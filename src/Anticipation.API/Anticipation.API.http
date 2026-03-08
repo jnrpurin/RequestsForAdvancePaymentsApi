@@ -1,0 +1,17 @@
+@Anticipation.API_HostAddress = http://localhost:5216
+
+POST {{Anticipation.API_HostAddress}}/api/v1/anticipations
+Content-Type: application/json
+
+{
+	"creatorId": "user-001",
+	"amount": 1200.50,
+	"currency": "BRL"
+}
+
+###
+
+GET {{Anticipation.API_HostAddress}}/api/v1/anticipations/creator/user-001
+Accept: application/json
+
+###
