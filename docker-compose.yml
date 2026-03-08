@@ -1,0 +1,12 @@
+services:
+  anticipation-api:
+    container_name: anticipation-api
+    build:
+      context: .
+      dockerfile: src/Anticipation.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
