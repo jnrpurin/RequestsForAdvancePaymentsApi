@@ -1,5 +1,10 @@
 @Anticipation.API_HostAddress = http://localhost:5216
 
+GET {{Anticipation.API_HostAddress}}/api/v1/anticipations/simulate?creator_id=user-001&valor_solicitado=1500.00&data_solicitacao=2026-03-08T10:00:00Z
+Accept: application/json
+
+###
+
 POST {{Anticipation.API_HostAddress}}/api/v1/anticipations
 Content-Type: application/json
 
@@ -8,6 +13,11 @@ Content-Type: application/json
 	"valor_solicitado": 1200.50,
 	"data_solicitacao": "2026-03-08T10:00:00Z"
 }
+
+###
+
+GET {{Anticipation.API_HostAddress}}/api/v1/anticipations?page=1&pageSize=20
+Accept: application/json
 
 ###
 
