@@ -39,8 +39,10 @@ public static class DependencyInjection
 
         services.AddScoped<AnticipationDomainService>();
         services.AddScoped<CreateAnticipationHandler>();
+        services.AddScoped<SimulateAnticipationHandler>();
         services.AddScoped<ApproveAnticipationHandler>();
         services.AddScoped<RejectAnticipationHandler>();
+        services.AddScoped<GetAllAnticipationsHandler>();
         services.AddScoped<GetByCreatorHandler>();
         services.AddScoped<IAnticipationService, AnticipationService>();
 

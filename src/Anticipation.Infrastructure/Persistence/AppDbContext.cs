@@ -17,6 +17,8 @@ public sealed class AppDbContext : DbContext
         modelBuilder.Entity<AnticipationRequest>(builder =>
         {
             builder.HasKey(request => request.Id);
+            builder.HasIndex(request => request.RequestDate);
+            builder.HasIndex(request => request.CreatorId);
             builder.Property(request => request.CreatorId)
                 .HasMaxLength(100)
                 .IsRequired();

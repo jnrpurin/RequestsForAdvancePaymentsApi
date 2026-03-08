@@ -18,6 +18,12 @@ public sealed class CreateAnticipationHandler
 
     public async Task<AnticipationResponse> HandleAsync(CreateAnticipationCommand command, CancellationToken cancellationToken = default)
     {
+        var hasPendingRequest = await _repository.HasPendingByCreatorAsync(command.CreatorId, cancellationToken);
+        if (hasPendingRequest)
+        {
+            throw new InvalidOperationException("O creator ja possui uma solicitacao pendente.");
+        }
+
         var request = _domainService.Create(command.CreatorId, command.RequestedAmount, command.RequestDate);
         await _repository.AddAsync(request, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);

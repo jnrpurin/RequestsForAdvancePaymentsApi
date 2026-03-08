@@ -26,7 +26,7 @@ public sealed record AnticipationResponse(
     {
         return status switch
         {
-            RequestStatus.Pending => "pendente",
+            RequestStatus.Pending => "pendentef",
             RequestStatus.Approved => "aprovada",
             RequestStatus.Rejected => "recusada",
             _ => "desconhecido"
