@@ -9,4 +9,28 @@ services:
       ASPNETCORE_URLS: http://+:8080
     ports:
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  anticipation-web:
+    container_name: anticipation-web
+    build:
+      context: apps/anticipation-web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      anticipation-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
     restart: unless-stopped
