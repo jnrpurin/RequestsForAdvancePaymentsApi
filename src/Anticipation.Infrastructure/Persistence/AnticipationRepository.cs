@@ -28,7 +28,7 @@ public sealed class AnticipationRepository : IAnticipationRepository
         return await _dbContext.AnticipationRequests
             .AsNoTracking()
             .Where(request => request.CreatorId == creatorId)
-            .OrderByDescending(request => request.CreatedAtUtc)
+            .OrderByDescending(request => request.RequestDate)
             .ToListAsync(cancellationToken);
     }
 

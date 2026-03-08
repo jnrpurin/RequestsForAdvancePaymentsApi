@@ -1,10 +1,17 @@
 using Anticipation.API.Extensions;
+using Anticipation.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiDependencies(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>

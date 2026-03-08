@@ -22,10 +22,10 @@ public sealed class AppDbContext : DbContext
                 .IsRequired();
             builder.Property(request => request.Status)
                 .HasConversion<int>();
-            builder.Property(request => request.CreatedAtUtc)
+            builder.Property(request => request.RequestDate)
                 .IsRequired();
 
-            builder.OwnsOne(request => request.Amount, money =>
+            builder.OwnsOne(request => request.RequestedAmount, money =>
             {
                 money.Property(value => value.Amount)
                     .IsRequired();

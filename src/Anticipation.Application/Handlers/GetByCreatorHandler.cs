@@ -18,15 +18,7 @@ public sealed class GetByCreatorHandler
         var requests = await _repository.GetByCreatorAsync(query.CreatorId, cancellationToken);
 
         return requests
-            .Select(request => new AnticipationResponse(
-                request.Id,
-                request.CreatorId,
-                request.Amount.Amount,
-                request.Amount.Currency,
-                request.Status,
-                request.CreatedAtUtc,
-                request.DecidedAtUtc,
-                request.RejectionReason))
+            .Select(AnticipationResponse.FromDomain)
             .ToList();
     }
 }
