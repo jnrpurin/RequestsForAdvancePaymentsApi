@@ -24,14 +24,6 @@ public sealed class ApproveAnticipationHandler
         _domainService.Approve(request);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return new AnticipationResponse(
-            request.Id,
-            request.CreatorId,
-            request.Amount.Amount,
-            request.Amount.Currency,
-            request.Status,
-            request.CreatedAtUtc,
-            request.DecidedAtUtc,
-            request.RejectionReason);
+        return AnticipationResponse.FromDomain(request);
     }
 }

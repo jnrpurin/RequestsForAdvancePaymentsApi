@@ -18,18 +18,10 @@ public sealed class CreateAnticipationHandler
 
     public async Task<AnticipationResponse> HandleAsync(CreateAnticipationCommand command, CancellationToken cancellationToken = default)
     {
-        var request = _domainService.Create(command.CreatorId, command.Amount, command.Currency);
+        var request = _domainService.Create(command.CreatorId, command.RequestedAmount, command.RequestDate);
         await _repository.AddAsync(request, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return new AnticipationResponse(
-            request.Id,
-            request.CreatorId,
-            request.Amount.Amount,
-            request.Amount.Currency,
-            request.Status,
-            request.CreatedAtUtc,
-            request.DecidedAtUtc,
-            request.RejectionReason);
+        return AnticipationResponse.FromDomain(request);
     }
 }

@@ -21,17 +21,9 @@ public sealed class RejectAnticipationHandler
         var request = await _repository.GetByIdAsync(command.Id, cancellationToken)
             ?? throw new KeyNotFoundException($"Anticipation request '{command.Id}' was not found.");
 
-        _domainService.Reject(request, command.Reason);
+        _domainService.Reject(request);
         await _repository.SaveChangesAsync(cancellationToken);
 
-        return new AnticipationResponse(
-            request.Id,
-            request.CreatorId,
-            request.Amount.Amount,
-            request.Amount.Currency,
-            request.Status,
-            request.CreatedAtUtc,
-            request.DecidedAtUtc,
-            request.RejectionReason);
+        return AnticipationResponse.FromDomain(request);
     }
 }

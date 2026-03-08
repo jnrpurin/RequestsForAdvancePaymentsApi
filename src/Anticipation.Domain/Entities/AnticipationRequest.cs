@@ -5,30 +5,37 @@ namespace Anticipation.Domain.Entities;
 
 public sealed class AnticipationRequest
 {
+    private const decimal FeeRate = 0.05m;
+
     public Guid Id { get; private set; }
     public string CreatorId { get; private set; } = string.Empty;
-    public Money Amount { get; private set; } = null!;
+    public Money RequestedAmount { get; private set; } = null!;
     public RequestStatus Status { get; private set; }
-    public DateTime CreatedAtUtc { get; private set; }
+    public DateTime RequestDate { get; private set; }
     public DateTime? DecidedAtUtc { get; private set; }
-    public string? RejectionReason { get; private set; }
+    public decimal NetAmount => decimal.Round(RequestedAmount.Amount * (1 - FeeRate), 2, MidpointRounding.AwayFromZero);
 
     private AnticipationRequest()
     {
     }
 
-    public AnticipationRequest(string creatorId, Money amount)
+    public AnticipationRequest(string creatorId, Money requestedAmount, DateTime requestDate)
     {
         if (string.IsNullOrWhiteSpace(creatorId))
         {
             throw new ArgumentException("CreatorId is required.", nameof(creatorId));
         }
 
+        if (requestDate == default)
+        {
+            throw new ArgumentException("Request date is required.", nameof(requestDate));
+        }
+
         Id = Guid.NewGuid();
         CreatorId = creatorId.Trim();
-        Amount = amount;
+        RequestedAmount = requestedAmount;
+        RequestDate = requestDate;
         Status = RequestStatus.Pending;
-        CreatedAtUtc = DateTime.UtcNow;
     }
 
     public void Approve()
@@ -36,21 +43,14 @@ public sealed class AnticipationRequest
         EnsurePending();
         Status = RequestStatus.Approved;
         DecidedAtUtc = DateTime.UtcNow;
-        RejectionReason = null;
     }
 
-    public void Reject(string reason)
+    public void Reject()
     {
         EnsurePending();
 
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            throw new ArgumentException("Rejection reason is required.", nameof(reason));
-        }
-
         Status = RequestStatus.Rejected;
         DecidedAtUtc = DateTime.UtcNow;
-        RejectionReason = reason.Trim();
     }
 
     private void EnsurePending()

@@ -22,10 +22,10 @@ public sealed class AnticipationsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAnticipationRequest request, CancellationToken cancellationToken)
     {
         var response = await _service.CreateAsync(
-            new CreateAnticipationCommand(request.CreatorId, request.Amount, request.Currency),
+            new CreateAnticipationCommand(request.creator_id, request.valor_solicitado, request.data_solicitacao),
             cancellationToken);
 
-        return CreatedAtAction(nameof(GetByCreator), new { creatorId = response.CreatorId }, response);
+        return CreatedAtAction(nameof(GetByCreator), new { version = "1", creatorId = response.creator_id }, response);
     }
 
     [HttpPut("{id:guid}/approve")]
@@ -36,9 +36,9 @@ public sealed class AnticipationsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/reject")]
-    public async Task<IActionResult> Reject(Guid id, [FromQuery] string reason, CancellationToken cancellationToken)
+    public async Task<IActionResult> Reject(Guid id, CancellationToken cancellationToken)
     {
-        var response = await _service.RejectAsync(new RejectAnticipationCommand(id, reason), cancellationToken);
+        var response = await _service.RejectAsync(new RejectAnticipationCommand(id), cancellationToken);
         return Ok(response);
     }
 

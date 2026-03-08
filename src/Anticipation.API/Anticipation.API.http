@@ -4,9 +4,9 @@ POST {{Anticipation.API_HostAddress}}/api/v1/anticipations
 Content-Type: application/json
 
 {
-	"creatorId": "user-001",
-	"amount": 1200.50,
-	"currency": "BRL"
+	"creator_id": "user-001",
+	"valor_solicitado": 1200.50,
+	"data_solicitacao": "2026-03-08T10:00:00Z"
 }
 
 ###

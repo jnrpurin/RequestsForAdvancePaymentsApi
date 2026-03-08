@@ -1,5 +1,3 @@
 namespace Anticipation.Application.Commands;
 
-public sealed record RejectAnticipationCommand(
-    Guid Id,
-    string Reason);
+public sealed record RejectAnticipationCommand(Guid Id);
