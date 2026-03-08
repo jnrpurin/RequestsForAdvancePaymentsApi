@@ -19,7 +19,10 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Anticipation API v1");
 });
 
+app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
+
 app.UseHttpsRedirection();
+app.UseCors("frontend");
 app.MapControllers();
 
 app.Run();

@@ -19,6 +19,7 @@ Principais funcionalidades atuais:
 - Listar solicitacoes por `creator_id`
 - Listar todas as solicitacoes com paginacao
 - Aprovar ou recusar solicitacao
+- Frontend React para operacao (listagem, criacao e aprovacao/reprovacao)
 
 Regras de negocio implementadas:
 
@@ -43,8 +44,15 @@ Comando:
 docker compose up --build -d
 ```
 
+Observacoes:
+
+- O backend possui `healthcheck` em `/healthz`.
+- O frontend so inicia quando o backend estiver `healthy`.
+- Isso reduz falhas de bootstrap e erro de conexao no start.
+
 Pronto. A API ficara disponivel em:
 
+- Frontend: `http://localhost:3000`
 - `http://localhost:8080`
 - Swagger: `http://localhost:8080/swagger`
 
@@ -68,6 +76,22 @@ dotnet run --project src/Anticipation.API/Anticipation.API.csproj
 ```
 
 A API abrira usando o `launchSettings`/config local.
+
+### Frontend local (React)
+
+Comandos:
+
+```bash
+cd apps/anticipation-web
+npm install
+npm run dev
+```
+
+Frontend local:
+
+- `http://localhost:5173`
+
+Em dev local, o frontend usa `VITE_API_BASE_URL` (veja `apps/anticipation-web/.env.example`) para apontar para a API.
 
 ## Endpoints principais
 

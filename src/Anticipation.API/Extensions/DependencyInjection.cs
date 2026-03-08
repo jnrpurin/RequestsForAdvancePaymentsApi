@@ -10,9 +10,23 @@ namespace Anticipation.API.Extensions;
 
 public static class DependencyInjection
 {
+    private const string FrontendCorsPolicy = "frontend";
+
     public static IServiceCollection AddApiDependencies(this IServiceCollection services, IConfiguration configuration)
     {
+        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+            ?? new[] { "http://localhost:5173", "http://localhost:4173" };
+
         services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
+        services.AddCors(options =>
+        {
+            options.AddPolicy(FrontendCorsPolicy, policy =>
+            {
+                policy.WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
 
         services.AddApiVersioning(options =>
         {
